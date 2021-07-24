@@ -1,4 +1,4 @@
-#JTwitch ![](./img/twitch.png)
+# JTwitch ![](./img/twitch.png)
 
 Twitch api wrapper to create twitch bot with JVM langage.
 
