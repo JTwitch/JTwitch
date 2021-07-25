@@ -7,21 +7,21 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
+import java.nio.ByteBuffer;
 import java.util.List;
 
 class TwitchSocket extends WebSocketClient {
 
-  private static final String URL = "ws://irc-ws.chat.twitch.tv:80/irc";
+  private static final String URL = "%s://irc-ws.chat.twitch.tv:%d/irc";
 
   private final String botAccount;
   private final String token;
   private final List<MessageAction> messageActions;
-  private final TwitchBot bot;
+  private final ConnectedTwitchBot bot;
 
 
-  public TwitchSocket(String botAccount, String token, List<MessageAction> messageActions, TwitchBot bot) throws URISyntaxException {
-    super(new URI(URL));
+  public TwitchSocket(String botAccount, String token, List<MessageAction> messageActions, SecurityType securityType, ConnectedTwitchBot bot) throws URISyntaxException {
+    super(new URI(String.format(URL, securityType.getExtention(), securityType.getPort())));
     this.botAccount = botAccount;
     this.token = token;
     this.messageActions = messageActions;
@@ -34,6 +34,10 @@ class TwitchSocket extends WebSocketClient {
     System.out.println("Websocket, Open ");
     send("PASS oauth:"+ token);
     send("NICK " + botAccount);
+    send("CAP REQ :twitch.tv/membership");
+    send("CAP REQ :twitch.tv/tags");
+    send("CAP REQ :twitch.tv/commands");
+
   }
 
   @Override
@@ -43,6 +47,12 @@ class TwitchSocket extends WebSocketClient {
     } else if (message.contains(" PRIVMSG ")) {
       messageActions.forEach(messageAction -> messageAction.execute(bot, new Message(message)));
     }
+    System.err.println(message);
+  }
+
+  @Override
+  public void onMessage(ByteBuffer bytes) {
+    super.onMessage(bytes);
   }
 
   @Override
