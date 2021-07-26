@@ -41,6 +41,7 @@ class TwitchSocket extends WebSocketClient {
     } else if (message.contains(" PRIVMSG ")) {
       messageActions.forEach(messageAction -> messageAction.execute(bot, new Message(message)));
     }
+    System.err.println(message);
   }
 
   @Override

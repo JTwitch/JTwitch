@@ -1,6 +1,7 @@
 package com.twitch.socket;
 
 import com.twitch.action.MessageAction;
+import com.twitch.action.ScheduleAction;
 import com.twitch.message.Message;
 import com.twitch.socket.connection.ConnectionOption;
 
@@ -11,9 +12,10 @@ public class ConnectedTwitchBot {
 
   private final TwitchSocket twitchSocket;
 
-  public ConnectedTwitchBot(ConnectionOption connectionOption, List<MessageAction> messageActions) throws InterruptedException, URISyntaxException {
+  public ConnectedTwitchBot(ConnectionOption connectionOption, List<MessageAction> messageActions, List<ScheduleAction> scheduleActions) throws InterruptedException, URISyntaxException {
     twitchSocket = new TwitchSocket(connectionOption, messageActions, this);
     twitchSocket.connectBlocking();
+    scheduleActions.forEach(scheduleAction -> scheduleAction.run(this));
   }
 
   /** Join a streamer channel */

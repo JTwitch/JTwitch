@@ -35,12 +35,14 @@ public class Main {
 To authenticate your bot you need :
 
 - A user account
-- The token of this user (you can generate it [here](https://twitchapps.com/tmi/))
+- The token of this user (you can generate it [here](https://twitchapps.com/tmi/). 
+it will gave you the token with format `oauth:token`. you just need the token part)
 
 ## Roadmap
 
-- ✅ Send Message
-- ✅ Answer Message
+- ✅ Send message
+- ✅ Answer message
+- ✅ Schedule message
 - ⬜ Delete message
 - ⬜ Create easy command pattern
 - ⬜ Remove a command

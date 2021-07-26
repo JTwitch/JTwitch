@@ -1,6 +1,7 @@
 package com.twitch.socket;
 
 import com.twitch.action.MessageAction;
+import com.twitch.action.ScheduleAction;
 import com.twitch.socket.connection.ConnectionOption;
 
 import java.net.URISyntaxException;
@@ -11,6 +12,7 @@ public class TwitchBot {
 
   private final ConnectionOption option;
   private final List<MessageAction> messageActions = new ArrayList<>();
+  private final List<ScheduleAction> scheduleActions = new ArrayList<>();
 
   public TwitchBot(String botAccount, String token) {
     this.option = new ConnectionOption(botAccount, token);
@@ -29,7 +31,12 @@ public class TwitchBot {
     return this;
   }
 
+  public TwitchBot withScheduleAction(int periodInSecond, ScheduleAction.Action action) {
+    scheduleActions.add(new ScheduleAction(periodInSecond, action));
+    return this;
+  }
+
   public ConnectedTwitchBot connect() throws InterruptedException, URISyntaxException {
-    return new ConnectedTwitchBot(option, messageActions);
+    return new ConnectedTwitchBot(option, messageActions, scheduleActions);
   }
 }
