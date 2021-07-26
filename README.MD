@@ -43,7 +43,7 @@ it will gave you the token with format `oauth:token`. you just need the token pa
 - ✅ Send message
 - ✅ Answer message
 - ✅ Schedule message
-- ⬜ Delete message
+- ✅ Delete message
 - ⬜ Create easy command pattern
 - ⬜ Remove a command
 - ⬜ administrate channel with standard moderation command

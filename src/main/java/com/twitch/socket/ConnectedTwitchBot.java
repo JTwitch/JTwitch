@@ -18,7 +18,9 @@ public class ConnectedTwitchBot {
     scheduleActions.forEach(scheduleAction -> scheduleAction.run(this));
   }
 
-  /** Join a streamer channel */
+  /**
+   * Join a streamer channel
+   */
   public ConnectedTwitchBot join(String streamer) {
     twitchSocket.send("JOIN #" + streamer);
     return this;
@@ -35,7 +37,14 @@ public class ConnectedTwitchBot {
     twitchSocket.send("PRIVMSG #" + streamer + " :" + message);
   }
 
-  /** reply to a message. */
+  /** delete a message. */
+  public void delete(Message message) {
+    send(message.getStreamerName(), "/delete " + message.getId());
+  }
+
+  /**
+   * reply to a message.
+   */
   public void answer(Message messageToAnswer, String message) {
     twitchSocket.send("@reply-parent-msg-id=" + messageToAnswer.getId() + " PRIVMSG #" + messageToAnswer.getStreamerName() + " :" + message);
   }
