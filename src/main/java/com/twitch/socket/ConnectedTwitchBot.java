@@ -2,6 +2,7 @@ package com.twitch.socket;
 
 import com.twitch.action.MessageAction;
 import com.twitch.message.Message;
+import com.twitch.socket.connection.ConnectionOption;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -10,8 +11,8 @@ public class ConnectedTwitchBot {
 
   private final TwitchSocket twitchSocket;
 
-  public ConnectedTwitchBot(String botAccount, String token, List<MessageAction> messageActions, SecurityType securityType) throws InterruptedException, URISyntaxException {
-    twitchSocket = new TwitchSocket(botAccount, token, messageActions, securityType, this);
+  public ConnectedTwitchBot(ConnectionOption connectionOption, List<MessageAction> messageActions) throws InterruptedException, URISyntaxException {
+    twitchSocket = new TwitchSocket(connectionOption, messageActions, this);
     twitchSocket.connectBlocking();
   }
 

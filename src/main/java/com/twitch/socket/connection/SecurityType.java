@@ -1,4 +1,4 @@
-package com.twitch.socket;
+package com.twitch.socket.connection;
 
 /**
  * represent the two type of socket connection :

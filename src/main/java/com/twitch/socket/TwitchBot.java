@@ -1,6 +1,7 @@
 package com.twitch.socket;
 
 import com.twitch.action.MessageAction;
+import com.twitch.socket.connection.ConnectionOption;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -8,22 +9,18 @@ import java.util.List;
 
 public class TwitchBot {
 
-  private final String botAccount;
-  private final String token;
-  private SecurityType securityType = SecurityType.STANDARD_PROTOCOL;
-
+  private final ConnectionOption option;
   private final List<MessageAction> messageActions = new ArrayList<>();
 
   public TwitchBot(String botAccount, String token) {
-    this.botAccount = botAccount;
-    this.token = token;
+    this.option = new ConnectionOption(botAccount, token);
   }
 
   /**
    * trigger the socket to connect to the SSL connection of twitch
    */
   public TwitchBot secureConnection() {
-    securityType = SecurityType.SECURE_PROTOCOL;
+    option.secureConnection();
     return this;
   }
 
@@ -33,6 +30,6 @@ public class TwitchBot {
   }
 
   public ConnectedTwitchBot connect() throws InterruptedException, URISyntaxException {
-    return new ConnectedTwitchBot(botAccount, token, messageActions, securityType);
+    return new ConnectedTwitchBot(option, messageActions);
   }
 }
