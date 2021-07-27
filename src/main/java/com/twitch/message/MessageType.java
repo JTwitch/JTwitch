@@ -34,7 +34,7 @@ public enum MessageType {
     this.type = type;
   }
 
-  public static MessageType of(String type) {
+  static MessageType of(String type) {
     return Stream.of(values())
                  .filter(typeMessage -> Objects.equals(typeMessage.type, type))
                  .findFirst()

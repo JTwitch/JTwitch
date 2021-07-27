@@ -31,7 +31,6 @@ class TwitchSocket extends WebSocketClient {
     send("CAP REQ :twitch.tv/membership");
     send("CAP REQ :twitch.tv/tags");
     send("CAP REQ :twitch.tv/commands");
-
   }
 
   @Override
@@ -40,6 +39,7 @@ class TwitchSocket extends WebSocketClient {
       send("PONG");
     } else if (message.contains(" PRIVMSG ")) {
       messageActions.forEach(messageAction -> messageAction.execute(bot, new Message(message)));
+    } else if (message.contains(" WHISPER ")) {
     }
     System.err.println(message);
   }
