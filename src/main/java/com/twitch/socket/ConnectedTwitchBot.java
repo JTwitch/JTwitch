@@ -2,6 +2,8 @@ package com.twitch.socket;
 
 import com.twitch.action.MessageAction;
 import com.twitch.action.ScheduleAction;
+import com.twitch.command.Command;
+import com.twitch.command.Commands;
 import com.twitch.message.Message;
 import com.twitch.socket.connection.ConnectionOption;
 
@@ -23,35 +25,59 @@ public class ConnectedTwitchBot {
     scheduleActions.forEach(scheduleAction -> scheduleAction.run(this));
   }
 
-  /** Join a streamer channel. */
+  /**
+   * Join a streamer channel.
+   */
   public ConnectedTwitchBot join(String streamer) {
     sendRawSocketMessage("JOIN #" + streamer);
     return this;
   }
 
-  /** Leave a streamer channel */
+  /**
+   * Leave a streamer channel
+   */
   public ConnectedTwitchBot leave(String streamer) {
     sendRawSocketMessage("PART #" + streamer);
     return this;
   }
 
-  /** send a message to a specific channel. */
+  /**
+   * send a message to a specific channel.
+   */
   public void send(String streamer, String message) {
     sendRawSocketMessage("PRIVMSG #" + streamer + " :" + message);
   }
 
-  /** reply to a message. */
+  /**
+   * reply to a message.
+   */
   public void answer(Message messageToAnswer, String message) {
     sendRawSocketMessage("@reply-parent-msg-id=" + messageToAnswer.getId() + " PRIVMSG #" + messageToAnswer.getStreamerName() + " :" + message);
   }
 
+  /** This command sends a private message to another user on Twitch. */
   public void whisper(String user, String message) {
-    send("jtv", String.format("/w %s %s", user, message));
+    command("jtv", Commands.whisper(user, message));
+  }
+
+  /**
+   * Mention a specific user on a specific channel.
+   */
+  public void mention(String user, String streamer, String message) {
+    command(streamer, Commands.mention(user, message));
+  }
+
+  /**
+   * send command to a specific channel.
+   * You need to use {@link Commands} repository.
+   */
+  public void command(String streamer, Command command) {
+    send(streamer, command.getCommand());
   }
 
   /** delete a message. */
   public void delete(Message message) {
-    send(message.getStreamerName(), "/delete " + message.getId());
+    command(message.getStreamerName(), Commands.delete(message));
   }
 
   /**
