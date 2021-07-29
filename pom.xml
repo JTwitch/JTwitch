@@ -40,5 +40,13 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub CharlesLgn Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/CharlesLgn/JTwitch</url>
+        </repository>
+    </distributionManagement>
+
 
 </project>
