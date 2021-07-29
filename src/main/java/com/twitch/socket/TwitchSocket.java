@@ -13,6 +13,9 @@ import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+/**
+ * Represent the twitch connection protocol.
+ */
 class TwitchSocket extends WebSocketClient {
 
   private final ConnectionOption connectionOption;

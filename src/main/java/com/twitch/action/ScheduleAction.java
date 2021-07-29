@@ -8,7 +8,7 @@ import java.util.TimerTask;
 
 /**
  * Represent what to on a specific time. <br />
- * It is used when you build a {@link TwitchBot} with method {@link TwitchBot#withScheduleAction(MessageAction)}.
+ * It is used when you build a {@link TwitchBot} with method {@link TwitchBot#withScheduleAction(int, Action)}.
  * <p/>
  * You can for instance send `Hello world` all 5 minutes with : <br/>
  * <code>
@@ -18,7 +18,6 @@ import java.util.TimerTask;
 public record ScheduleAction(int periodInSecond, Action action) {
 
   public void run(ConnectedTwitchBot bot) {
-    // creating timer task, timer
     TimerTask tasknew = new TimerTask() {
       @Override
       public void run() {

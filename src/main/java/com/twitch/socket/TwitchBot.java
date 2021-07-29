@@ -8,6 +8,9 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represent a twitch bot before it is connected.
+ */
 public class TwitchBot {
 
   private final ConnectionOption option;

@@ -48,7 +48,7 @@ For more information about twitch ICR specification, please follow [the official
 - ✅ Answer message
 - ✅ Schedule message
 - ✅ Delete message
-- ⬜ add raw socket message (if a new socket command is add by twitvh and not curently implemented in JTwitch)
+- ✅ add raw socket message (if a new socket command is add by twitvh and not curently implemented in JTwitch)
 - ⬜ Create easy command pattern
 - ⬜ Remove a command
 - ⬜ administrate channel with standard moderation command
