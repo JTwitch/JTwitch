@@ -1,5 +1,7 @@
 out/
 target/
+/build/
+/.gradle/
 /.idea/
 
 src/main/java/com/twitch/Main.java
