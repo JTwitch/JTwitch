@@ -2,16 +2,23 @@
 
 Twitch api wrapper to create twitch bot with JVM langage.
 
-## Use it with maven
+## Use it with Maven 🪶
 
 ```xml
 
 <dependency>
-    <groupId>com.jtwitch</groupId>
+    <groupId>io.github.jtwitch</groupId>
     <artifactId>jtwitch</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
+
+## Use it with Gradle 🐘
+
+```gradle
+implementation 'io.github.jtwitch:jtwitch:1.0.0'
+```
+
 
 ## exemple of code
 
