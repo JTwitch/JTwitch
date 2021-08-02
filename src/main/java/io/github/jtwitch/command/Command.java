@@ -47,5 +47,8 @@ package io.github.jtwitch.command;
  */
 public interface Command {
 
+  /**
+   * @return the command of the chat (like /ban or /info)
+   */
   String getCommand();
 }

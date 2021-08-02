@@ -1,5 +1,8 @@
 package io.github.jtwitch.socket.connection;
 
+/**
+ * Describe options to create a socket connection through the twitch IRC socket.
+ */
 public class ConnectionOption {
 
   private static final String URL = "%s://irc-ws.chat.twitch.tv:%d/irc";
@@ -7,6 +10,13 @@ public class ConnectionOption {
   private final TwitchCredential credential;
 
   private SecurityType securityType = SecurityType.STANDARD_PROTOCOL;
+
+  /**
+   * The only constructor.
+   * @param botAccount the name of the bot account. for instance,
+   *                   if your bot account is {@code nightbot}, the botAccount is {@code nightbot}
+   * @param token the connection token the you generate <a href="https://twitchapps.com/tmi/">here</a>
+   */
   public ConnectionOption(String botAccount, String token) {
     this.credential = new TwitchCredential(botAccount, token);
   }
@@ -18,21 +28,31 @@ public class ConnectionOption {
     securityType = SecurityType.SECURE_PROTOCOL;
   }
 
+  /**
+   * @return the formatted url connection
+   */
   public String getConnectionUrl() {
     return String.format(URL, securityType.getExtention(), securityType.getPort());
   }
 
+  /**
+   * @return userName credential
+   */
   public String getUser() {
     return credential.user();
   }
 
+  /**
+   * @return the token to connection to the twitch IRC socket.
+   */
   public String getToken() {
     return credential.token();
   }
 
+  /** The credential ton connect to the twitch IRC socket */
   private record TwitchCredential(String user, String token) {}
 
-  enum SecurityType {
+  private enum SecurityType {
     STANDARD_PROTOCOL("ws", 80),
     SECURE_PROTOCOL("wss", 443);
 
