@@ -61,6 +61,11 @@ For more information about twitch ICR specification, please follow [the official
 - ⬜ Remove a command
 
 
-## Report bugs
+## Report bugs or propose a new feature
 
-don't
+Please [github issues](https://github.com/JTwitch/JTwitch/issues) to report a bug or propose a new feature
+
+For any bug, please provide a reproduction scenario and, if possible, a sample of code.
+
+
+
