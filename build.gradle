@@ -28,6 +28,10 @@ test {
     useJUnitPlatform()
 }
 
+javadoc {
+    options.stylesheetFile = new File(projectDir, "src/main/resources/javadoc/style.css");
+}
+
 task sourceJar(type: Jar) {
     classifier "sources"
     from sourceSets.main.allJava
@@ -38,14 +42,15 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-javadoc {
-    options.stylesheetFile = new File(projectDir, "src/main/resources/javadoc/style.css");
-}
-
 artifacts {
     archives jar
     archives sourceJar
     archives javadocJar
+}
+
+signing {
+    useGpgCmd()
+    sign configurations.archives
 }
 
 publishing {
@@ -58,19 +63,41 @@ publishing {
 
             from components.java
 
+            // create the sign pom artifact
+            pom.withXml {
+                def pomFile = file("${project.buildDir}/generated-pom.xml")
+                writeTo(pomFile)
+                def pomAscFile = signing.sign(pomFile).signatureFiles[0]
+                artifact(pomAscFile) {
+                    classifier = null
+                    extension = 'pom.asc'
+                }
+            }
+
             artifact(sourceJar) {
                 classifier = 'sources'
             }
             artifact(javadocJar) {
                 classifier = 'javadoc'
             }
+
+            // create the signed artifacts
+            project.tasks.signArchives.signatureFiles.each {
+                artifact(it) {
+                    def matcher = it.file =~ /-(sources|javadoc)\.jar\.asc$/
+                    if (matcher.find()) {
+                        classifier = matcher.group(1)
+                    } else {
+                        classifier = null
+                    }
+                    extension = 'jar.asc'
+                }
+            }
         }
     }
     repositories {
         maven {
-            url = version.endsWith('SNAPSHOT')
-                    ? "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-                    : "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            url "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials {
                 username sonatypeUsername
                 password sonatypePassword
@@ -121,5 +148,17 @@ def customizePom(pom) {
                 }
             }
         }
+    }
+}
+
+model {
+    tasks.generatePomFileForMavenJavaPublication {
+        destination = file("$buildDir/generated-pom.xml")
+    }
+    tasks.publishMavenJavaPublicationToMavenLocal {
+        dependsOn project.tasks.signArchives
+    }
+    tasks.publishMavenJavaPublicationToMavenRepository {
+        dependsOn project.tasks.signArchives
     }
 }
